@@ -54,6 +54,12 @@ jobs:
           name: kind-config-file
           path: /home/runner/.kube/
   
+      - name: Test123
+        run: |
+          cd ../../..
+          cd .kube
+          ls -a
+  
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
         run: helm version
