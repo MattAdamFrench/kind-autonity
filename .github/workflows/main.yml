@@ -9,23 +9,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
-    
-    steps: 
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      ### INSTALL DEPENDENCIES ###
       - name: Install Kubectl
         uses: Azure/setup-kubectl@v1
         with:
           # Version of kubectl
           version: v1.18.4
-
+        
       - name: Install Helm
         uses: Azure/setup-helm@v1
         with:
           # Version of helm
           version: v3.2.4
           token: ${{ github.token }}
-
+        
       - name: Install Kind & Create cluster
         uses: engineerd/setup-kind@v0.5.0
         with:
@@ -33,15 +37,6 @@ jobs:
           name: autonity-network
           wait: 60s
           skipClusterCreation: false
-      
-
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
       
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
@@ -72,4 +67,3 @@ jobs:
         run: |
           sleep 30s
           kubectl get pods --namespace autonity-network
-
