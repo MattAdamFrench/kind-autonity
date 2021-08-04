@@ -52,14 +52,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: kind-config-file
-          path: /home/runner/.kube/
-  
-      - name: Test123
-        run: |
-          cd ../../..
-          cd .kube
-          ls -a
-  
+    
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
         run: helm version
@@ -71,7 +64,7 @@ jobs:
         run: kind get clusters
         
       - name: Test Kuberctl install
-        run: kubectl version
+        run: kubectl version --kubeconfig=config
       
       ### CREATE AUTONITY ###
       - name: Initialise Helm repositories
@@ -80,7 +73,7 @@ jobs:
           helm repo update
       
       - name: Create Autonity namespace
-        run: kubectl create namespace autonity-network
+        run: kubectl create namespace autonity-network --kubeconfig=config
         
       - name: Install Helm chart
         run: helm install autonity-network charts-ose.clearmatics.com/autonity-network --namespace autonity-network --version 1.8.0
@@ -88,4 +81,4 @@ jobs:
       - name: Check Autonity is running
         run: |
           sleep 30s
-          kubectl get pods --namespace autonity-network
+          kubectl get pods --namespace autonity-network --kubeconfig=config
