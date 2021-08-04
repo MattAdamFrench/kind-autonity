@@ -52,7 +52,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: kind-config-file
-          path: /home/runner/.kube/config
+          path: /home/runner/.kube/
   
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
