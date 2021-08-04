@@ -55,7 +55,7 @@ jobs:
       
       - name: Test Config
         run: |
-          chmod u=rw ~/.kube/config
+          chmod go-r ~/.kube/config
           kubectl config view
       
       ### TEST INSTALLATIONS ###
