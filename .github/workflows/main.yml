@@ -34,9 +34,6 @@ jobs:
         with:
           # Version of kubectl
           version: v1.18.4
-      
-      - name: Test Kuberctl install
-        run: kubectl version
         
       - name: Helm tool installer
         uses: Azure/setup-helm@v1
@@ -67,6 +64,9 @@ jobs:
       
       - name: Test Kind cluster creation
         run: kind get clusters
+        
+      - name: Test Kuberctl install
+        run: kubectl version
         
       - name: Test Kubectl contexts
         run: kubectl get-contexts
