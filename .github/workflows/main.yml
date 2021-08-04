@@ -79,5 +79,7 @@ jobs:
         run: helm install autonity-network charts-ose.clearmatics.com/autonity-network --namespace autonity-network --version 1.8.0
         
       - name: Check Autonity is running
-        run: kubectl get pods --namespace autonity-network
+        run: |
+          sleep 30s
+          kubectl get pods --namespace autonity-network
         
