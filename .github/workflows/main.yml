@@ -37,6 +37,23 @@ jobs:
           name: autonity-network
           wait: 60s
           skipClusterCreation: false
+            
+      - name: Save config
+        uses: actions/upload-artifact@v2
+        with:
+          name: kind-config-file
+          path: ./.kube/config
+      
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Download config file
+        uses: actions/download-artifact@v2
+        with:
+          name: kind-config-file
+      
       
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
