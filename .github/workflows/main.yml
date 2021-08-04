@@ -65,4 +65,20 @@ jobs:
         
       - name: Test Kuberctl install
         run: kubectl version
+      
+      ### CREATE AUTONITY ###
+      - name: Initialise Helm repositories
+        run: |
+          helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+          helm repo add charts-ose.clearmatics.com https://charts-ose.clearmatics.com/
+          helm repo update
+      
+      - name: Create Autonity namespace
+        run: kubectl create namespace autonity-network
+        
+      - name: Install Helm chart
+        run: helm install autonity-network charts-ose.clearmatics.com/autonity-network --namespace autonity-network --version 1.8.0
+        
+      - name: Check Autonity is running
+        run: kubectl get pods --namespace autonity-network
         
