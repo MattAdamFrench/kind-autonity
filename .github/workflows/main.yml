@@ -11,7 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+      KUBECONFIG: ${{ GITHUB_WORKSPACE }}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -37,6 +38,11 @@ jobs:
           name: autonity-network
           wait: 60s
           skipClusterCreation: false
+      
+      - name: Test123
+        run: |
+          ls -a
+          pwd
       
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
