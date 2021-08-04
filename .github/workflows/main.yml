@@ -68,6 +68,9 @@ jobs:
       - name: Test Kind cluster creation
         run: kind get clusters
         
+      - name: Test Kuberctl contexts
+        run: kubectl config get-contexts
+        
       - name: Test Kuberctl install
         run: kubectl version --context kind-autonity-network
       
