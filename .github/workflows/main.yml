@@ -11,8 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      KUBECONFIG: $GITHUB_WORKSPACE
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -39,10 +37,23 @@ jobs:
           wait: 60s
           skipClusterCreation: false
       
-      - name: Test123
-        run: |
-          ls -a
-          pwd
+      - name: Upload Config
+        uses: actions/upload-artifact@v2
+        with:
+          name: kind-config
+          path: /home/runner/.kube/config
+      
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Config
+        uses: actions/download-artifact@v2
+        with:
+          name: kind-config
+          path: /home/runner/.kube
+      
+      - name: Test Config
+        run: kubectl config view
       
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
