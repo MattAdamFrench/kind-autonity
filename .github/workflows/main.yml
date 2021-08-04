@@ -41,13 +41,13 @@ jobs:
       - name: Test123
         run: |
           pwd
-          ls
+          ls -a
         
       - name: Save config
         uses: actions/upload-artifact@v2
         with:
           name: kind-config-file
-          path: ../../../.kube/config
+          path: /.kube/config
       
   test:
     needs: build
