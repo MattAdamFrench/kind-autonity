@@ -38,11 +38,6 @@ jobs:
           wait: 60s
           skipClusterCreation: false
         
-      - name: Test123
-        run: |
-          pwd
-          ls -a
-        
       - name: Save config
         uses: actions/upload-artifact@v2
         with:
@@ -53,13 +48,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    
       - name: Download config file
         uses: actions/download-artifact@v2
         with:
           name: kind-config-file
-      
-      
+          path: /home/runner/.kube/config
+  
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
         run: helm version
