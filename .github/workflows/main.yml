@@ -1,26 +1,17 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Test Autonity
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   # push:
   #   branches: [ main ]
   # pull_request:
   #   branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -40,17 +31,11 @@ jobs:
           token: ${{ github.token }}
         
       - name: Install Kind & Create cluster
-        # You may pin to the exact commit or the version.
-        # uses: engineerd/setup-kind@aa272fe2a7309878ffc2a81c56cfe3ef108ae7d0
         uses: engineerd/setup-kind@v0.5.0
         with:
-          # Version of Kind to use (default v0.7.0)
           version: v0.11.1
-          # Cluster context name (default kind)
           name: autonity-network
-          # Wait for control plane node to be ready (default 300s)
           wait: 60s
-          # If true, the action will not create a cluster, just acquire the tools
           skipClusterCreation: false
       
       ### TEST INSTALLATIONS ###
@@ -79,17 +64,6 @@ jobs:
         run: helm install autonity-network charts-ose.clearmatics.com/autonity-network --namespace autonity-network --version 1.8.0
         
       - name: Check Autonity is running
-        run: |
-          sleep 30s
-          kubectl get pods --namespace autonity-network
-
-  test: 
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      - name: Test Autonity
         run: |
           sleep 30s
           kubectl get pods --namespace autonity-network
