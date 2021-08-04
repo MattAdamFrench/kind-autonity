@@ -63,9 +63,6 @@ jobs:
       - name: Test Kind cluster creation
         run: kind get clusters
         
-      - name: Test Kuberctl install
-        run: kubectl version --kubeconfig=config
-      
       ### CREATE AUTONITY ###
       - name: Initialise Helm repositories
         run: |
