@@ -39,7 +39,7 @@ jobs:
           version: v3.2.4
           token: ${{ github.token }}
         
-      - name: Install Kind
+      - name: Install Kind & Create cluster
         # You may pin to the exact commit or the version.
         # uses: engineerd/setup-kind@aa272fe2a7309878ffc2a81c56cfe3ef108ae7d0
         uses: engineerd/setup-kind@v0.5.0
@@ -51,7 +51,7 @@ jobs:
           # Wait for control plane node to be ready (default 300s)
           wait: 60s
           # If true, the action will not create a cluster, just acquire the tools
-          skipClusterCreation: true
+          skipClusterCreation: false
       
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
@@ -59,6 +59,9 @@ jobs:
         
       - name: Test Kind install
         run: kind version
+        
+      - name: Test Kind cluster creation
+        run: kind get clusters
         
       - name: Test Kuberctl install
         run: kubectl version
