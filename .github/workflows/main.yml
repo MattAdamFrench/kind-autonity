@@ -54,7 +54,9 @@ jobs:
           path: /home/runner/.kube
       
       - name: Test Config
-        run: kubectl config view
+        run: |
+          chmod u=rw ~/.kube/config
+          kubectl config view
       
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
