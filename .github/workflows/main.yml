@@ -37,22 +37,7 @@ jobs:
           name: autonity-network
           wait: 60s
           skipClusterCreation: false
-        
-      - name: Save config
-        uses: actions/upload-artifact@v2
-        with:
-          name: kind-config-file
-          path: /home/runner/.kube/config
       
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download config file
-        uses: actions/download-artifact@v2
-        with:
-          name: kind-config-file
-    
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
         run: helm version
@@ -63,6 +48,9 @@ jobs:
       - name: Test Kind cluster creation
         run: kind get clusters
         
+      - name: Test Kuberctl install
+        run: kubectl version
+      
       ### CREATE AUTONITY ###
       - name: Initialise Helm repositories
         run: |
@@ -70,7 +58,7 @@ jobs:
           helm repo update
       
       - name: Create Autonity namespace
-        run: kubectl create namespace autonity-network --kubeconfig=config
+        run: kubectl create namespace autonity-network
         
       - name: Install Helm chart
         run: helm install autonity-network charts-ose.clearmatics.com/autonity-network --namespace autonity-network --version 1.8.0
@@ -78,4 +66,4 @@ jobs:
       - name: Check Autonity is running
         run: |
           sleep 30s
-          kubectl get pods --namespace autonity-network --kubeconfig=config
+          kubectl get pods --namespace autonity-network
