@@ -70,10 +70,7 @@ jobs:
         
       - name: Test Kuberctl contexts
         run: kubectl config get-contexts
-        
-      - name: Test Kuberctl install
-        run: kubectl version --context kind-autonity-network
-      
+
       ### CREATE AUTONITY ###
       - name: Initialise Helm repositories
         run: |
