@@ -37,7 +37,12 @@ jobs:
           name: autonity-network
           wait: 60s
           skipClusterCreation: false
-            
+        
+      - name: Test123
+        run: |
+          pwd
+          ls
+        
       - name: Save config
         uses: actions/upload-artifact@v2
         with:
