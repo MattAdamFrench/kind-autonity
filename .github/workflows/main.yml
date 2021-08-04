@@ -44,6 +44,7 @@ jobs:
           path: /home/runner/.kube/config
       
   test:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download Config
