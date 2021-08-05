@@ -41,7 +41,7 @@ jobs:
       ### TEST INSTALLATIONS ###
       - name: Test Helm install
         run: | 
-          echo "::set-output name=test::test123
+          echo "::set-output name=test::test123"
           helm version
         
       - name: Test Kind install
