@@ -56,7 +56,9 @@ jobs:
         run: kubectl create namespace ${{ matrix.chart }}
         
       - name: Install Helm chart
-        run: helm install ${{ matrix.chart }} stable/${{ matrix.chart }} --namespace ${{ matrix.chart }} --version 1.8.0
+        run: |
+          cd stable/${{ matrix.chart }}
+          helm install ${{ matrix.chart }} ./ --namespace ${{ matrix.chart }} --version 1.8.0
         
       - name: Check Autonity is running
         run: |
