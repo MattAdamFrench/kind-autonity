@@ -55,7 +55,7 @@ jobs:
       - name: Initialise Helm repositories
         run: |
           helm repo add charts-ose.clearmatics.com https://charts-ose.clearmatics.com
-          helm repo add stable https://charts.helm.sh/stable
+          helm repo add "stable" "https://charts.helm.sh/stable" --force-update
           helm repo update
       
       - name: Create Autonity namespace
