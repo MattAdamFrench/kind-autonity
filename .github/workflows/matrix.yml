@@ -52,12 +52,18 @@ jobs:
         run: kubectl version
       
       ### CREATE AUTONITY ###
+      - name: Initialise Helm repositories
+        run: |
+          helm repo add charts-ose.clearmatics.com https://charts-ose.clearmatics.com/
+          helm repo update
+      
       - name: Create Autonity namespace
         run: kubectl create namespace ${{ matrix.chart }}
         
       - name: Install Helm chart
         run: |
           cd stable/${{ matrix.chart }}
+          helm dependency update
           helm install ${{ matrix.chart }} ./ --namespace ${{ matrix.chart }} --version 1.8.0
         
       - name: Check Autonity is running
