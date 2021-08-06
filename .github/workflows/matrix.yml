@@ -54,7 +54,8 @@ jobs:
       ### CREATE AUTONITY ###
       - name: Initialise Helm repositories
         run: |
-          helm repo add charts-ose.clearmatics.com https://charts-ose.clearmatics.com/
+          helm repo add charts-ose.clearmatics.com https://charts-ose.clearmatics.com
+          helm repo add stable https://kubernetes-charts.storage.googleapis.com
           helm repo update
       
       - name: Create Autonity namespace
