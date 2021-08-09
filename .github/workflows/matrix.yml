@@ -49,10 +49,7 @@ jobs:
         
       - name: Test Kind install
         run: kind version
-        
-      - name: Test Kuberctl install
-        run: kubectl version
-      
+              
   build:
     needs: test-installations
     strategy:
