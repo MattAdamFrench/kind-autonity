@@ -1,22 +1,21 @@
-name: Matrix
+name: Test charts with Kind
 
 on:
   workflow_dispatch:
 
 jobs:
-  build:
+  setup:
     strategy:
       matrix:
         chart: [autonity-network, autonity-demo, autonity]
   
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v2
         with:
           repository: clearmatics/charts-ose-helm3
       
-      ### INSTALL DEPENDENCIES ###
       - name: Install Kubectl
         uses: Azure/setup-kubectl@v1
         with:
@@ -34,29 +33,41 @@ jobs:
         uses: engineerd/setup-kind@v0.5.0
         with:
           version: v0.11.1
-          name: ${{ matrix.chart }}
-          wait: 60s
-          skipClusterCreation: false
+          skipClusterCreation: true
 
-      ### TEST INSTALLATIONS ###
+  test-installations:
+    strategy:
+      matrix:
+        chart: [autonity-network, autonity-demo, autonity]
+  
+    runs-on: ubuntu-20.04
+
+    steps:
       - name: Test Helm install
         run: helm version
         
       - name: Test Kind install
         run: kind version
         
-      - name: Test Kind cluster creation
-        run: kind get clusters
-        
       - name: Test Kuberctl install
         run: kubectl version
       
-      ### CREATE AUTONITY ###
+  build:
+    strategy:
+      matrix:
+        chart: [autonity-network, autonity-demo, autonity]
+  
+    runs-on: ubuntu-20.04
+
+    steps:
       - name: Initialise Helm repositories
         run: |
           helm repo add charts-ose.clearmatics.com https://charts-ose.clearmatics.com
           helm repo add stable https://charts.helm.sh/stable
           helm repo update
+      
+      - name: Create cluster
+        run: kind create cluster --name ${{ matrix.chart }}
       
       - name: Create Autonity namespace
         run: kubectl create namespace ${{ matrix.chart }}
